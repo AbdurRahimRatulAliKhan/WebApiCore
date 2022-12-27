@@ -13,6 +13,10 @@ builder.Services.AddSwaggerGen();
 //Dependency Injection of DbContext Class
 builder.Services.AddDbContext<EmployeeContext>(db => 
 db.UseSqlServer(builder.Configuration.GetConnectionString("ConEmp")));
+builder.Services.AddCors(cors => cors.AddPolicy("MyPolicy", builder =>
+{
+    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+}));
 
 var app = builder.Build();
 
