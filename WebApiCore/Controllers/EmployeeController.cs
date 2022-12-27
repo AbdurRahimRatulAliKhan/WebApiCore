@@ -28,7 +28,27 @@ namespace WebApiCore.Controllers
           {
               return NotFound();
           }
-            return await _context.TblEmployee.ToListAsync();
+            //return await _context.TblEmployee.ToListAsync();
+            var employees = (from e in _context.TblEmployee
+                             join d in _context.TblDesignation
+                             on e.DesignationID equals d.Id
+
+                             select new TblEmployee
+                             {
+                                 Id = e.Id,
+                                 Name = e.Name,
+                                 LastName= e.LastName,
+                                 Email= e.Email,
+                                 Age= e.Age,
+                                 DesignationID=e.DesignationID,
+                                 Designation=d.Designation,
+                                 DOJ = e.DOJ,
+                                 Gender = e.Gender,
+                                 IsActive = e.IsActive,
+                                 IsMarried = e.IsMarried,
+                             }
+                             ).ToListAsync();
+            return await employees;
         }
 
         // GET: api/Employee/5
